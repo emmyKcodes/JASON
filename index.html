@@ -403,7 +403,7 @@
       .success-message {
         display: none;
         background: rgba(34, 197, 94, 0.1);
-        color: #16a34a;
+        color: #ffffff;
         padding: 12px 20px;
         border-radius: 8px;
         margin-top: 16px;
@@ -505,7 +505,22 @@
         margin-top: 20px;
       }
 
-      /* Responsive */
+      /* Responsive Adjustments */
+      @media (max-width: 1024px) {
+        .hero::before {
+          width: 600px;
+          height: 600px;
+        }
+        
+        .signup-section h2 {
+          font-size: 2.2rem;
+        }
+        
+        .users-section h2 {
+          font-size: 2.2rem;
+        }
+      }
+
       @media (max-width: 768px) {
         .header-content {
           flex-direction: column;
@@ -515,23 +530,142 @@
         .nav-menu {
           flex-direction: column;
           gap: 15px;
+          width: 100%;
+        }
+
+        .nav-link {
+          width: 100%;
+          text-align: center;
+          padding: 12px 0;
+        }
+
+        .cta-button {
+          width: 100%;
+          text-align: center;
+          margin-top: 10px;
         }
 
         .email-form {
           flex-direction: column;
+          width: 100%;
+        }
+
+        .email-input,
+        .submit-btn {
+          width: 100%;
         }
 
         .hero {
           padding: 60px 0 80px;
         }
 
+        .hero h1 {
+          font-size: 2.2rem;
+        }
+
+        .hero p {
+          font-size: 1.1rem;
+          padding: 0 15px;
+        }
+
         .features {
           grid-template-columns: 1fr;
           gap: 30px;
+          margin: 60px 0;
+        }
+
+        .feature-card {
+          padding: 30px 20px;
+        }
+
+        .signup-section,
+        .users-section {
+          margin: 60px 0;
+          padding: 60px 20px;
+          border-radius: 20px;
+        }
+
+        .signup-section h2,
+        .users-section h2 {
+          font-size: 2rem;
+        }
+
+        .signup-section p,
+        .users-section p {
+          font-size: 1rem;
+          padding: 0 10px;
         }
 
         .user-types {
           grid-template-columns: 1fr;
+          gap: 20px;
+          margin-top: 40px;
+        }
+
+        .user-type {
+          padding: 25px 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .logo {
+          font-size: 28px;
+        }
+        
+        .logo-icon {
+          width: 40px;
+          height: 40px;
+          font-size: 20px;
+        }
+
+        .hero h1 {
+          font-size: 1.8rem;
+        }
+
+        .hero p {
+          font-size: 1rem;
+        }
+
+        .feature-card h3 {
+          font-size: 1.3rem;
+        }
+
+        .feature-card p {
+          font-size: 0.95rem;
+        }
+
+        .signup-section h2,
+        .users-section h2 {
+          font-size: 1.8rem;
+        }
+
+        .user-icon {
+          width: 70px;
+          height: 70px;
+          font-size: 30px;
+        }
+
+        .user-type h3 {
+          font-size: 1.2rem;
+        }
+
+        footer {
+          padding: 40px 0;
+        }
+      }
+
+      @media (max-width: 360px) {
+        .hero h1 {
+          font-size: 1.6rem;
+        }
+        
+        .feature-card {
+          padding: 25px 15px;
+        }
+        
+        .signup-section h2,
+        .users-section h2 {
+          font-size: 1.6rem;
         }
       }
     </style>
