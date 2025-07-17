@@ -246,6 +246,19 @@
         z-index: -1;
       }
 
+      @media (max-width: 768px) {
+        .hero::before {
+          max-width: 600px;
+          max-height: 600px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero::before {
+          max-width: 300px;
+          max-height: 300px;
+        }
+      }
       .hero h1 {
         font-size: clamp(2.5rem, 5vw, 4rem);
         font-weight: 700;
@@ -669,19 +682,6 @@
         .signup-section h2,
         .users-section h2 {
           font-size: 1.6rem;
-        }
-        @media (max-width: 768px) {
-          .hero::before {
-            max-width: 600px;
-            max-height: 600px;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .hero::before {
-            max-width: 400px;
-            max-height: 400px;
-          }
         }
       }
     </style>
