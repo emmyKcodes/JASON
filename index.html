@@ -232,8 +232,11 @@
         top: 0;
         left: 50%;
         transform: translateX(-50%);
-        width: 800px;
-        height: 800px;
+        width: 100%;
+        max-width: 800px;
+        height: 100%;
+        max-height: 800px;
+        aspect-ratio: 1/1;
         background: radial-gradient(
           circle,
           rgba(99, 102, 241, 0.05) 0%,
@@ -511,11 +514,11 @@
           width: 600px;
           height: 600px;
         }
-        
+
         .signup-section h2 {
           font-size: 2.2rem;
         }
-        
+
         .users-section h2 {
           font-size: 2.2rem;
         }
@@ -611,7 +614,7 @@
         .logo {
           font-size: 28px;
         }
-        
+
         .logo-icon {
           width: 40px;
           height: 40px;
@@ -658,14 +661,27 @@
         .hero h1 {
           font-size: 1.6rem;
         }
-        
+
         .feature-card {
           padding: 25px 15px;
         }
-        
+
         .signup-section h2,
         .users-section h2 {
           font-size: 1.6rem;
+        }
+        @media (max-width: 768px) {
+          .hero::before {
+            max-width: 600px;
+            max-height: 600px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero::before {
+            max-width: 400px;
+            max-height: 400px;
+          }
         }
       }
     </style>
