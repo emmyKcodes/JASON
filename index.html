@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Transform Long Content Into Perfect Notes</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
     <style>
@@ -16,7 +16,7 @@
       }
 
       body {
-        font-family: "Josefin Sans", sans-serif;
+        font-family: "Roboto", sans-serif;
         background-color: #ffffff;
         color: #1a1a1a;
         line-height: 1.6;
@@ -820,10 +820,7 @@
     </footer>
 
     <script>
-      const GOOGLE_FORM_URL =
-        "https://docs.google.com/forms/d/e/1FAIpQLSeT6rjOOvrghrwpnqzEYZO2QbZEFd84r0VAmNnjDWaDvCvepQ/viewform";
-      const EMAIL_FIELD_NAME = "entry.YPqjbf";
-
+      // Updated script for Mailchimp integration
       let submittedEmails = new Set();
 
       document
@@ -835,6 +832,12 @@
           const email = emailInput.value.trim();
           const successMessage = document.getElementById("successMessage");
           const submitButton = this.querySelector('button[type="submit"]');
+
+          // Basic email validation
+          if (!isValidEmail(email)) {
+            alert("Please enter a valid email address!");
+            return;
+          }
 
           // Check for duplicate in current session
           if (submittedEmails.has(email)) {
@@ -848,8 +851,8 @@
             submitButton.textContent = "Submitting...";
 
             try {
-              // Submit to Google Form
-              const success = await submitToGoogleForm(email);
+              // Submit to your server endpoint
+              const success = await submitToMailchimp(email);
 
               if (success) {
                 // Add to session cache
@@ -857,18 +860,16 @@
 
                 // Show success message
                 successMessage.style.display = "block";
+                successMessage.textContent =
+                  "🎉 Successfully joined the waitlist!";
                 emailInput.value = "";
 
-                // Hide success message after 3 seconds
+                // Hide success message after 4 seconds
                 setTimeout(() => {
                   successMessage.style.display = "none";
-                }, 3000);
+                }, 4000);
 
                 console.log("Email submitted successfully:", email);
-              } else {
-                alert(
-                  "There was an error submitting your email. Please try again."
-                );
               }
             } catch (error) {
               console.error("Submission error:", error);
@@ -883,28 +884,56 @@
           }
         });
 
-      // Function to submit email to Google Form
-      async function submitToGoogleForm(email) {
+      // Function to submit email to Mailchimp via your server
+      async function submitToMailchimp(email) {
         try {
-          const formData = new FormData();
-          formData.append(EMAIL_FIELD_NAME, email);
-
-          const response = await fetch(GOOGLE_FORM_URL, {
+          // Update this URL based on your deployment platform:
+          // For Netlify: '/.netlify/functions/subscribe'
+          // For Vercel: '/api/subscribe'
+          // For custom server: 'https://your-domain.com/api/subscribe'
+          const response = await fetch("/.netlify/functions/subscribe", {
             method: "POST",
-            body: formData,
-            mode: "no-cors", // Required for Google Forms
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email }),
           });
 
-          // With no-cors mode, we can't check response status
-          // We'll assume success if no error was thrown
-          return true;
+          const result = await response.json();
+
+          if (result.success) {
+            return true;
+          } else {
+            console.error("Mailchimp error:", result.error);
+
+            // Handle specific Mailchimp errors
+            if (
+              result.error &&
+              result.error.includes("already a list member")
+            ) {
+              alert("This email is already subscribed to our waitlist!");
+            } else if (result.error && result.error.includes("invalid")) {
+              alert("Please enter a valid email address!");
+            } else {
+              alert(
+                "There was an error submitting your email. Please try again."
+              );
+            }
+            return false;
+          }
         } catch (error) {
-          console.error("Error submitting to Google Form:", error);
-          return false;
+          console.error("Error submitting to Mailchimp:", error);
+          throw error;
         }
       }
 
-      // Add floating animation to feature cards
+      // Email validation function
+      function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
+
+      // Keep your existing animation code
       document.querySelectorAll(".feature-card").forEach((card, index) => {
         card.style.animationDelay = `${index * 0.1}s`;
         card.style.animation = "fadeInUp 0.8s ease forwards";
@@ -922,6 +951,29 @@
           }
         });
       });
+
+      // Optional: Add some visual feedback for the email input
+      document
+        .getElementById("emailInput")
+        .addEventListener("input", function () {
+          const email = this.value.trim();
+          if (email && !isValidEmail(email)) {
+            this.style.borderColor = "#ff6b6b";
+          } else {
+            this.style.borderColor = ""; // Reset to default
+          }
+        });
+
+      // Optional: Add enter key support for better UX
+      document
+        .getElementById("emailInput")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
+            document
+              .getElementById("emailForm")
+              .dispatchEvent(new Event("submit"));
+          }
+        });
     </script>
   </body>
 </html>
