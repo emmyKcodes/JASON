@@ -877,7 +877,7 @@
 
       async function submitToMailchimp(email) {
         try {
-          const response = await fetch("/api/subscribe", {
+          const response = await fetch("/api/subscriber", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -945,7 +945,7 @@
           }
         });
 
-git      document
+      document
         .getElementById("emailInput")
         .addEventListener("keypress", function (e) {
           if (e.key === "Enter") {
